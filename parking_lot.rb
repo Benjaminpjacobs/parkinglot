@@ -11,9 +11,9 @@ class ParkingLot
 
    def allocate_cars
      @cars_from_file.read.split("\n\n\n")
-    .map{|words| words.split}
-    .map{|car| Car.new(car[0],car[1])}
-    .group_by{|car| car.make}
+      .map{ |words| words.split }
+      .map{ |car| Car.new(car[0],car[1]) }
+    .group_by{ |car| car.make }
    end
 
   def list_cars
