@@ -1,17 +1,23 @@
 require_relative "./car.rb"
+require 'pry'
 
 class ParkingLot
   def initialize (filename)
-    @cars_hash = {}
-    cars = File.open(filename, "r")
-    cars_array = cars.read.split("\n\n\n").map{|words| words.split}.map{|car| @cars_hash[car[0]] = car[1]}
-    puts @cars_hash
-  end 
+    @cars_from_file = File.open(filename, "r")
+    @cars_hash = @cars_from_file.read.split("\n\n\n")
+    .map{|words| words.split}
+    .map{|car| Car.new(car[0],car[1])}
+    .group_by{|car| car.make}
+    @cars_from_file.close
+   end 
 
   def list_cars
-    @cars_hash.each do |key, value|
-      key = Car.new(key, value)
-      key.what_car
+    @cars_hash.each do |key, value| 
+      i = 0
+      value.count.times do
+      value[i].what_car
+      i+= 1
+      end
     end
   end
 end
